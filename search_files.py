@@ -1,8 +1,11 @@
 import os
-import openai
+from openai import OpenAI
 import private_information
 
-openai.api_key = private_information.openai_api_key
+client = OpenAI(
+    # This is the default and can be omitted
+    api_key=private_information.openai_api_key,
+)
 
 def process_file(file_path, prompt, output_file):
     """
@@ -15,15 +18,26 @@ def process_file(file_path, prompt, output_file):
     full_prompt = prompt + '\n\n' + file_content
 
     # Send the prompt to the OpenAI API
-    response = openai.Completion.create(engine="text-davinci-002", prompt=full_prompt, max_tokens=150)
+    # TODO: Can write all messages at once
+    chat_completion = client.chat.completions.create(
+    messages=[
+        {
+            "role": "user",
+            "content": full_prompt,
+        }
+    ],
+    model="gpt-3.5-turbo",
+    )
 
+    # This extracts the response
+    response = chat_completion.choices[0].message.content
 
     # Write the response to the output file
     with open(output_file, 'a') as output:
-        output.write(f'Response for {file_path}:\n{response.choices[0].text}\n\n')
+        output.write(f'Response for {file_path}:\n{response}\n\n')
 
     # Print the response
-    print(f'Response for {file_path}:\n{response.choices[0].text}\n')
+    print(f'Response for {file_path}:\n{response}\n')
 
 def process_directory(directory_path, prompt, output_file):
     """
