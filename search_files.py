@@ -15,7 +15,8 @@ def process_file(file_path, prompt, output_file):
     full_prompt = prompt + '\n\n' + file_content
 
     # Send the prompt to the OpenAI API
-    response = openai.Completion.create(engine="davinci", prompt=full_prompt, max_tokens=150)
+    response = openai.Completion.create(engine="text-davinci-002", prompt=full_prompt, max_tokens=150)
+
 
     # Write the response to the output file
     with open(output_file, 'a') as output:
@@ -35,9 +36,15 @@ def process_directory(directory_path, prompt, output_file):
 
 def main():
     # Set your folder or file path here
-    path = 'path/to/your/folder_or_file'
-    prompt = 'Your custom prompt here'
-    output_file = 'output.txt'
+    path = input('input the path to your file here: ')
+
+    prompt = input('for a custom prompt input here: ')
+    if prompt == '':
+        prompt = 'I am going to upload files I want you to give me any ip addresses or dynamic things and if there are none then just say there are none'
+    
+    output_file = input('input the output file here: ')
+    if output_file == '':
+        output_file = 'output.txt'
 
     # Clear the output file
     open(output_file, 'w').close()
