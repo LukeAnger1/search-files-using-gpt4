@@ -1,0 +1,5 @@
+# ignore itself
+./gitignore
+
+# ignores private information
+./private_information.py
