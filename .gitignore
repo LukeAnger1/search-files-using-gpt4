@@ -3,3 +3,6 @@
 
 # ignores private information
 /private_information.py
+
+# ignores output
+/output.txt
