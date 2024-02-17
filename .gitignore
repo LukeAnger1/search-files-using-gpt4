@@ -2,4 +2,4 @@
 ./gitignore
 
 # ignores private information
-./private_information.py
+/private_information.py
