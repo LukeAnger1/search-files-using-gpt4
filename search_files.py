@@ -1,8 +1,8 @@
 import os
 import openai
+import private_information
 
-# Set your OpenAI API key here
-openai.api_key = 'your_api_key_here'
+openai.api_key = private_information.openai_api_key
 
 def process_file(file_path, prompt, output_file):
     """
