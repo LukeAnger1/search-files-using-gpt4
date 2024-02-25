@@ -1,11 +1,7 @@
 import os
 from openai import OpenAI
-import private_information
-
-client = OpenAI(
-    # This is the default and can be omitted
-    api_key=private_information.openai_api_key,
-)
+import private_information as private_information
+import ask_gpt as gpt
 
 def process_file(file_path, prompt, output_file):
     """
@@ -19,18 +15,8 @@ def process_file(file_path, prompt, output_file):
 
     # Send the prompt to the OpenAI API
     # TODO: Can write all messages at once
-    chat_completion = client.chat.completions.create(
-    messages=[
-        {
-            "role": "user",
-            "content": full_prompt,
-        }
-    ],
-    model="gpt-3.5-turbo",
-    )
-
-    # This extracts the response
-    response = chat_completion.choices[0].message.content
+    print(f'the full prompt is {full_prompt} with type {type(full_prompt)}')
+    response = gpt.chatgpt(full_prompt)
 
     # Write the response to the output file
     with open(output_file, 'a') as output:
@@ -51,6 +37,8 @@ def process_directory(directory_path, prompt, output_file):
 def main():
     # Set your folder or file path here
     path = input('input the path to your file here: ')
+    if path == '':
+        path = 'testing'
 
     prompt = input('for a custom prompt input here: ')
     if prompt == '':
