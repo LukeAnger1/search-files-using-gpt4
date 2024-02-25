@@ -54,7 +54,7 @@ def main():
 
     prompt = input('for a custom prompt input here: ')
     if prompt == '':
-        prompt = 'I am going to upload files I want you to give me any ip addresses or dynamic things and if there are none then just say there are none'
+        prompt = 'Using the below java text I want you to give me any ip addresses or dynamic ways to connect to outside servers and if there are none then just say there are none'
     
     output_file = input('input the output file here: ')
     if output_file == '':
