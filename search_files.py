@@ -2,6 +2,7 @@ import os
 from openai import OpenAI
 import private_information as private_information
 import ask_gpt as gpt
+import fnmatch
 
 def process_file(file_path, prompt, output_file):
     """
@@ -15,7 +16,6 @@ def process_file(file_path, prompt, output_file):
 
     # Send the prompt to the OpenAI API
     # TODO: Can write all messages at once
-    print(f'the full prompt is {full_prompt} with type {type(full_prompt)}')
     response = gpt.chatgpt(full_prompt)
 
     # Write the response to the output file
@@ -31,14 +31,17 @@ def process_directory(directory_path, prompt, output_file):
     """
     for root, dirs, files in os.walk(directory_path):
         for file in files:
-            file_path = os.path.join(root, file)
-            process_file(file_path, prompt, output_file)
+            # This makes sure it only runs it for java files
+            # TODO: make this able to run with other files
+            if fnmatch.fnmatch(file, '*.java'):
+                file_path = os.path.join(root, file)
+                process_file(file_path, prompt, output_file)
 
 def main():
     # Set your folder or file path here
     path = input('input the path to your file here: ')
     if path == '':
-        path = 'testing'
+        path = 'extracted_csc_go'
 
     prompt = input('for a custom prompt input here: ')
     if prompt == '':
@@ -47,6 +50,8 @@ def main():
     output_file = input('input the output file here: ')
     if output_file == '':
         output_file = 'output.txt'
+
+    
 
     # Clear the output file
     open(output_file, 'w').close()
