@@ -1,6 +1,5 @@
 import private_information as private_information
 from openai import OpenAI
-import private_information as private_information
 
 # Set your OpenAI API key here
 client = OpenAI(
