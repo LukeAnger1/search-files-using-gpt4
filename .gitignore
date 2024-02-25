@@ -2,7 +2,12 @@
 ./gitignore
 
 # ignores private information
+/testing/private_information.py
 /private_information.py
 
 # ignores output
 /output.txt
+
+# ignores the end files to scan
+/extracted_csc_go/
+
