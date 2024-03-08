@@ -4,16 +4,7 @@ import private_information as private_information
 import ask_gpt as gpt
 import fnmatch
 
-def process_file(file_path, prompt, output_file):
-    """
-    Sends the content of the file to the OpenAI API with the given prompt and writes the response to the output file.
-    """
-    with open(file_path, 'r') as file:
-        file_content = file.read()
-
-    # Concatenate the prompt with the file content
-    full_prompt = prompt + '\n\n' + file_content
-
+def write_output_w_promt(full_prompt, output_file, file_path="None specified"):
     # Send the prompt to the OpenAI API
     # TODO: Can write all messages at once
     response = gpt.chatgpt(full_prompt)
@@ -24,6 +15,18 @@ def process_file(file_path, prompt, output_file):
 
     # Print the response
     print(f'Response for {file_path}:\n{response}\n')
+
+def process_file(file_path, prompt, output_file):
+    """
+    Sends the content of the file to the OpenAI API with the given prompt and writes the response to the output file.
+    """
+    with open(file_path, 'r') as file:
+        file_content = file.read()
+
+    # Concatenate the prompt with the file content
+    full_prompt = prompt + '\n\n' + file_content
+
+    write_output_w_promt(full_prompt, output_file, file_path)    
 
 def process_directory(directory_path, prompt, output_file):
     """
@@ -42,6 +45,7 @@ def main():
     path = input('input the path to your file here: ')
     if path == '':
         path = 'extracted_csc_go'
+        path = 'testing'
 
     prompt = input('for a custom prompt input here: ')
     if prompt == '':
