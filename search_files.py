@@ -13,10 +13,6 @@ def write_output_w_promt(full_prompt, output_file, file_path="None specified"):
     # TODO: Can write all messages at once
     response = gpt.chatgpt(full_prompt)
 
-    # IMPORTANT TODO: accidently converted the code to assembly must fix
-    # print(f'the full prompt is {full_prompt}')
-    # exit()
-
     # Write the response to the output file
     with open(output_file, 'a') as output:
         output.write(f'Response for {file_path}:\n{response}\n\n')
@@ -28,7 +24,7 @@ def process_file(file_path, prompt, output_file):
     """
     Sends the content of the file to the OpenAI API with the given prompt and writes the response to the output file.
     """
-    with open(file_path, 'r') as file:
+    with open(file_path, 'r', encoding='utf-8') as file:
         file_content = file.read()
 
     # Split the content based on the maximum number of characters
@@ -50,8 +46,7 @@ def process_files(file_paths, prompt, output_file, parallel_amount=100):
     all_content = []
 
     for file_path in file_paths:
-        with open(file_path, 'r') as file:
-            print(f'the file path causing error if this is the last print statement is {file_path}')
+        with open(file_path, 'r', encoding='utf-8') as file:
             file_content = file.read()
 
         # Split the content based on the maximum number of characters
@@ -101,7 +96,7 @@ def main():
     path = input('input the path to your file here: ')
     if path == '':
         path = 'extracted_csc_go'
-        # path = 'testing'
+        path = 'testing'
 
     prompt = input('for a custom prompt input here: ')
     if prompt == '':
