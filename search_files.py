@@ -4,6 +4,9 @@ import private_information as private_information
 import ask_gpt as gpt
 import fnmatch
 
+# According to docs can be as high as 4096 but I want it to be significantly smaller
+max_chars = 2000
+
 def write_output_w_promt(full_prompt, output_file, file_path="None specified"):
     # Send the prompt to the OpenAI API
     # TODO: Can write all messages at once
@@ -23,10 +26,15 @@ def process_file(file_path, prompt, output_file):
     with open(file_path, 'r') as file:
         file_content = file.read()
 
-    # Concatenate the prompt with the file content
-    full_prompt = prompt + '\n\n' + file_content
+    # Split the content based on the maximum number of characters
+    parts = [file_content[i:i + max_chars] for i in range(0, len(file_content), max_chars)]
 
-    write_output_w_promt(full_prompt, output_file, file_path)    
+    for file_content in parts:
+
+        # Concatenate the prompt with the file content
+        full_prompt = prompt + '\n\n' + file_content
+
+        write_output_w_promt(full_prompt, output_file, file_path)    
 
 def process_directory(directory_path, prompt, output_file):
     """
@@ -45,7 +53,7 @@ def main():
     path = input('input the path to your file here: ')
     if path == '':
         path = 'extracted_csc_go'
-        path = 'testing'
+        # path = 'testing'
 
     prompt = input('for a custom prompt input here: ')
     if prompt == '':
